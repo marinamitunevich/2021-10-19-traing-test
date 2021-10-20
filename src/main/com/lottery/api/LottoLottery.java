@@ -1,104 +1,34 @@
 package main.com.lottery.api;
 
-import main.com.lottery.exceptions.IncorrectRangeOfUnluckyNumber6from49;
+import main.com.lottery.exceptions.IncorrectRangeOfUnluckyNumber;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LottoLottery extends BaseLottery {
 
-    final static String unluckyNumbers6from49 = "unluckyNumber6aus49.log";
-    protected List<Integer> unluckyNumbers;
-
 
     public LottoLottery() {
-        super("Lotto");
+        super("Lotto", 1, 49, 6, "unluckyNumber6aus49.log");
     }
 
-    @Override
-    public List<Integer> generateNumbers() {
-
-         return new Random()
-                 .ints(6,5,50)
-                 .filter(value -> !getUnluckyNumbers().contains(value))
-                 .distinct().boxed().sorted().collect(Collectors.toList());
-
-    }
+//    @Override
+//    public List<Integer> generateNumbers() {
+//
+//         return new Random()
+//                 .ints(6,5,50)
+//                 .filter(value -> !getUnluckyNumbers().contains(value))
+//                 .distinct().boxed().sorted().collect(Collectors.toList());
+//
+//    }
 
     @Override
     public String getLotteryName() {
         return super.getLotteryName();
     }
 
-    @Override
-    public List<Integer> getUnluckyNumbers() {
-
-        String line = "";
-        BufferedReader br = null;
-        StringBuffer dataFromFile = new StringBuffer();
-        try {
-            br = new BufferedReader(new FileReader(unluckyNumbers6from49));
-            while ((line = br.readLine()) != null){
-                if (!line.isBlank())
-                    dataFromFile.append(line);
-            }
-            br.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        };
-
-        line = dataFromFile.toString();
-        unluckyNumbers = Arrays.stream(line.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList());
-
-        return unluckyNumbers;
-    }
-
-    @Override
-    public void addUnluckyNumbers() {
-
-        System.out.println("enter unlucky numbers for 6aus49 and please split with blank:");
-        Scanner readerFromConsole = new Scanner(System.in);
-
-        String unluckyNumbers = "";
-        boolean condition = true;
-
-        while (condition) {
-            unluckyNumbers = readerFromConsole.nextLine();
-            try {
-                if ( !( Arrays.stream(unluckyNumbers.split(" ")).map(s -> Integer.valueOf(s))
-                        .allMatch(integer -> integer <= 49 && integer >= 1)
-                        && unluckyNumbers.split(" ").length <= 6) )
-                    throw new IncorrectRangeOfUnluckyNumber6from49("unlucky number should be in the range [1,49] and it is allowed maximum 6 unlucky numbers");
-                else
-                    condition = false;
-
-            } catch (IncorrectRangeOfUnluckyNumber6from49 e) {
-                System.out.println(e.getMessages());
-
-            } catch (NumberFormatException e) {
-                System.out.println("invalid format of numbers");
-            }
-
-        }
-        BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new FileWriter(unluckyNumbers6from49));
-            bw.write(unluckyNumbers);
-            bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void removeUnluckyNumbers() {
-
-    }
 }

@@ -3,6 +3,7 @@ package main.com.lottery.menu;
 
 import main.com.lottery.api.BaseLottery;
 import main.com.lottery.api.Lottery;
+import main.com.lottery.api.LottoLottery;
 import main.com.lottery.exceptions.IncorrectParameterException;
 
 import java.util.List;
@@ -23,7 +24,11 @@ public class MainMenu extends BaseMenu {
 
         String readConsole = "" ;
 
-        displayOurMainMenu();
+        System.out.println("Menu:");
+        System.out.println("1 - name of the game ");
+        System.out.println("2 - unlucky numbers");
+        System.out.println("3 - generate a series of numbers");
+        System.out.println("4 - exit");
 
             readConsole = super.readerFromConsole.nextLine();
             try {
@@ -54,19 +59,11 @@ public class MainMenu extends BaseMenu {
 
             }
 
-
     }
 
     private void generateNumbers(Lottery activeGame) {
-        List<Integer> generatedNumbers = activeGame.generateNumbers();
-        System.out.println(generatedNumbers);
+
+            activeGame.generateNumbers();
     }
 
-    public static void displayOurMainMenu(){
-        System.out.println("Menu:");
-        System.out.println("1 - name of the game ");
-        System.out.println("2 - unlucky numbers");
-        System.out.println("3 - generate a series of numbers");
-        System.out.println("4 - exit");
-    }
 }

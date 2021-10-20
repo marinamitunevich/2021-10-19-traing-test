@@ -22,7 +22,6 @@ public class UnluckyNumbersMenu extends BaseMenu{
         System.out.println("Menu unlucky numbers:");
         System.out.println("1 - add your unlucky numbers");
         System.out.println("2 - delete your unlucky numbers");
-        System.out.println("3 - get your unlucky numbers");
         System.out.println("3 - back to Menu");
 
 
@@ -33,10 +32,9 @@ public class UnluckyNumbersMenu extends BaseMenu{
                         addUnluckyNumbers();
                         break;
                     case "2":
-                        Lottery euroJackPotLottery = new EuroJackPotLottery();
+                        activeGame.getActiveGame().removeUnluckyNumbers();
                         break;
                     case "3":
-                        getUnluckyNumbers();
                         break;
                     default:
                         throw new IncorrectParameterException("Incorrect data, enter please again: 1 2 or 3");
@@ -48,11 +46,6 @@ public class UnluckyNumbersMenu extends BaseMenu{
             }
 
 
-    }
-
-    private void getUnluckyNumbers() {
-
-        System.out.println(activeGame.getActiveGame().getUnluckyNumbers());
     }
 
     private void addUnluckyNumbers() {

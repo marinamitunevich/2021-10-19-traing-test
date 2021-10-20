@@ -1,33 +1,36 @@
 package main.com.lottery.api.eurojackpot;
 
 import main.com.lottery.api.BaseLottery;
-import main.com.lottery.exceptions.IncorrectRangeOfUnluckyNumber6from49;
+import main.com.lottery.api.Lottery;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
-public class EuroJackPotLottery extends BaseLottery {
+public class EuroJackPotLottery implements Lottery {
 
     protected EuroJackPot5From50 euroJackPot5From50;
     protected EuroJackPot2From10 euroJackPot2From10;
+    protected String nameLottery;
 
     public EuroJackPotLottery() {
 
-        super("Eurojackpot");
+        this.nameLottery = "EuroJackPot";
         euroJackPot5From50 = new EuroJackPot5From50("Eurojackpot5from50");
         euroJackPot2From10 = new EuroJackPot2From10("Eurojackpot2from10");
     }
 
 
     @Override
-    public List<Integer> generateNumbers() {
+    public void generateNumbers() {
 
-      return null;
+        System.out.println("====================Series of numbers for 5aus50:");
+        euroJackPot5From50.generateNumbers();
+        System.out.println("====================Series of numbers for 2aus10:");
+        euroJackPot2From10.generateNumbers();
+    }
+
+    @Override
+    public String getLotteryName() {
+        return this.nameLottery;
     }
 
     @Override
@@ -45,5 +48,8 @@ public class EuroJackPotLottery extends BaseLottery {
     @Override
     public void removeUnluckyNumbers() {
 
+        euroJackPot2From10.removeUnluckyNumbers();
+        euroJackPot5From50.removeUnluckyNumbers();
     }
+
 }
