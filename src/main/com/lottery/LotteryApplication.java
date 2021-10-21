@@ -23,10 +23,8 @@ public class LotteryApplication {
 //            System.err.println("Could not setup logger configuration: " + e.toString());
 //        }
 
-        Scanner readerFromConsole = new Scanner(System.in);
 
-        ActiveGame activeGame = new ActiveGame();
-        Menu mainMenu = new MainMenu(readerFromConsole, activeGame);
+        Menu mainMenu = new MainMenu();
         mainMenu.showMenu();
 
     }

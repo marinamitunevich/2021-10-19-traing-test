@@ -8,15 +8,12 @@ import java.util.Scanner;
 
 public abstract class BaseMenu implements Menu{
 
-    protected ActiveGame activeGame;
 
-    protected Scanner readerFromConsole;
     protected Menu parentMenu;
 
-    public BaseMenu(Scanner readerFromConsole) {
 
-        this.readerFromConsole = readerFromConsole;
-
+    protected void exit() {
+        System.exit(0);
     }
 
 

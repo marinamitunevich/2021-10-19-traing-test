@@ -1,5 +1,6 @@
 package main.com.lottery.menu;
 
+import main.com.lottery.ApplicationContext;
 import main.com.lottery.api.BaseLottery;
 import main.com.lottery.api.Lottery;
 import main.com.lottery.api.LottoLottery;
@@ -10,43 +11,39 @@ import java.util.Scanner;
 
 public class GameNamesMenu extends BaseMenu {
 
-
-    public GameNamesMenu(Scanner readerFromConsole, ActiveGame activeGame) {
-
-        super(readerFromConsole);
-        this.activeGame = activeGame;
-    }
-
     @Override
     public void showMenu() {
-        String readConsole = "";
-        System.out.println("Choose your lottery game:");
+
+        Scanner readerFromConsole = ApplicationContext.INSTANCE.getReaderFromConsole();
+
+        System.out.println("Choose your lottery game and generate numbers:");
         System.out.println("1 - Lotto");
         System.out.println("2 - Eurojackpot");
         System.out.println("3 - back to Menu");
 
 
-            readConsole = super.readerFromConsole.nextLine();
-            try {
-                switch (readConsole) {
-                    case "1":
-                        activeGame.setActiveGame(new LottoLottery());
-                        break;
-                    case "2":
-                        activeGame.setActiveGame(new EuroJackPotLottery());
-                        break;
-                    case "3":
-                        break;
-                    default:
-                        throw new IncorrectParameterException("Incorrect data, enter please again: 1 2 or 3");
-                }
+        String readConsole = readerFromConsole.nextLine();
+        Lottery lottery = null;
 
-            } catch (IncorrectParameterException e) {
-                System.out.println(e.getMessages());
+        switch (readConsole) {
+            case "1":
+                lottery = ApplicationContext.INSTANCE.getLottoLottery();
+                break;
+            case "2":
+                lottery = ApplicationContext.INSTANCE.getEuroJackPotLottery();
+                break;
+            case "3":
+                ApplicationContext.INSTANCE.getParentMenu().showMenu();
+            default:
+                System.out.println("Incorrect data, enter please again: 1  2 or 3, try again");
                 showMenu();
-            }
+        }
 
 
+        if (lottery != null) {
+
+            lottery.generateNumbers();
+        }
 
 
     }

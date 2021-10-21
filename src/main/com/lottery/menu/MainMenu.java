@@ -1,6 +1,7 @@
 package main.com.lottery.menu;
 
 
+import main.com.lottery.ApplicationContext;
 import main.com.lottery.api.BaseLottery;
 import main.com.lottery.api.Lottery;
 import main.com.lottery.api.LottoLottery;
@@ -8,62 +9,50 @@ import main.com.lottery.exceptions.IncorrectParameterException;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class MainMenu extends BaseMenu {
 
-
-    public MainMenu(Scanner readerFromConsole, ActiveGame activeGame) {
-
-        super(readerFromConsole);
-        this.activeGame = activeGame;
-
-    }
+    private static Logger log = Logger.getLogger(BaseLottery.class.getName());
 
     @Override
     public void showMenu() {
 
-        String readConsole = "" ;
+        Scanner readerFromConsole = ApplicationContext.INSTANCE.getReaderFromConsole();
 
         System.out.println("Menu:");
-        System.out.println("1 - name of the game ");
+        System.out.println("1 - choose game and generate numbers");
         System.out.println("2 - unlucky numbers");
-        System.out.println("3 - generate a series of numbers");
-        System.out.println("4 - exit");
+        System.out.println("3 - exit");
 
-            readConsole = super.readerFromConsole.nextLine();
-            try {
+            String readConsole = readerFromConsole.nextLine();
+
+            Menu nextMenu = null;
                 switch (readConsole) {
                     case "1":
-                        Menu gameNamesMenu = new GameNamesMenu(super.readerFromConsole, activeGame);
-                        gameNamesMenu.showMenu();
+                        nextMenu = new GameNamesMenu();
+                        nextMenu.showMenu();
                         showMenu();
                         break;
                     case "2":
-                        Menu unluckyNumbersMenu = new UnluckyNumbersMenu(super.readerFromConsole, activeGame);
-                        unluckyNumbersMenu.showMenu();
+                        nextMenu = new UnluckyNumbersMenu();
+                        nextMenu.showMenu();
                         showMenu();
                         break;
                     case "3":
-                        generateNumbers(activeGame.getActiveGame());
-                        showMenu();
-                        break;
-                    case "4":
+                        exit();
                         break;
                     default:
-                        throw new IncorrectParameterException("Incorrect data, enter please again: 1  2 or 3");
+                        System.out.println("Incorrect data, enter please again: 1  2 or 3, try again");
+                        showMenu();
                 }
 
-            } catch (IncorrectParameterException e) {
-                System.out.println(e.getMessages());
-                showMenu();
-
-            }
+             if (nextMenu != null) {
+                     nextMenu.showMenu();
+             }
 
     }
 
-    private void generateNumbers(Lottery activeGame) {
 
-            activeGame.generateNumbers();
-    }
 
 }

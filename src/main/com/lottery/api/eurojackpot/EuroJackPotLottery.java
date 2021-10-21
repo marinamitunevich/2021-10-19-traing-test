@@ -22,9 +22,8 @@ public class EuroJackPotLottery implements Lottery {
     @Override
     public void generateNumbers() {
 
-        System.out.println("====================Series of numbers for 5aus50:");
         euroJackPot5From50.generateNumbers();
-        System.out.println("====================Series of numbers for 2aus10:");
+
         euroJackPot2From10.generateNumbers();
     }
 
@@ -35,7 +34,8 @@ public class EuroJackPotLottery implements Lottery {
 
     @Override
     public List<Integer> getUnluckyNumbers() {
-        return null;
+
+        throw new UnsupportedOperationException("Not allowed here");
     }
 
     @Override

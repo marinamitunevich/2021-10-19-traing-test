@@ -1,5 +1,6 @@
 package main.com.lottery.menu;
 
+import main.com.lottery.ApplicationContext;
 import main.com.lottery.api.Lottery;
 import main.com.lottery.api.LottoLottery;
 import main.com.lottery.api.eurojackpot.EuroJackPotLottery;
@@ -7,49 +8,60 @@ import main.com.lottery.exceptions.IncorrectParameterException;
 
 import java.util.Scanner;
 
-public class UnluckyNumbersMenu extends BaseMenu{
-
-    public UnluckyNumbersMenu(Scanner readerFromConsole, ActiveGame activeGame) {
-
-        super(readerFromConsole);
-        this.activeGame = activeGame;
-    }
+public class UnluckyNumbersMenu extends BaseMenu {
 
     @Override
     public void showMenu() {
 
-        String readConsole = "" ;
+        Scanner readerFromConsole = ApplicationContext.INSTANCE.getReaderFromConsole();
+
         System.out.println("Menu unlucky numbers:");
         System.out.println("1 - add your unlucky numbers");
         System.out.println("2 - delete your unlucky numbers");
         System.out.println("3 - back to Menu");
 
 
-            readConsole = super.readerFromConsole.nextLine();
-            try {
-                switch (readConsole) {
-                    case "1":
-                        addUnluckyNumbers();
-                        break;
-                    case "2":
-                        activeGame.getActiveGame().removeUnluckyNumbers();
-                        break;
-                    case "3":
-                        break;
-                    default:
-                        throw new IncorrectParameterException("Incorrect data, enter please again: 1 2 or 3");
-                }
+        String readConsole = readerFromConsole.nextLine();
 
-            } catch (IncorrectParameterException e) {
-                System.out.println(e.getMessages());
+        switch (readConsole) {
+            case "1":
+                addUnluckyNumbers();
+                break;
+            case "2":
+                deleteUnluckyNumbers();
+                break;
+            case "3":
+                ApplicationContext.INSTANCE.getParentMenu().showMenu();
+                break;
+            default:
+                System.out.println("Incorrect data, enter please again: 1 2 or 3");
                 showMenu();
-            }
+        }
 
+
+    }
+
+    private void deleteUnluckyNumbers() {
+
+        Lottery lottery = null;
+
+        lottery = ApplicationContext.INSTANCE.getLottoLottery();
+        lottery.removeUnluckyNumbers();
+
+        lottery = ApplicationContext.INSTANCE.getEuroJackPotLottery();
+        lottery.removeUnluckyNumbers();
 
     }
 
     private void addUnluckyNumbers() {
 
-        activeGame.getActiveGame().addUnluckyNumbers();
+        Lottery lottery = null;
+
+        lottery = ApplicationContext.INSTANCE.getLottoLottery();
+        lottery.addUnluckyNumbers();
+
+        lottery = ApplicationContext.INSTANCE.getEuroJackPotLottery();
+        lottery.addUnluckyNumbers();
+
     }
 }

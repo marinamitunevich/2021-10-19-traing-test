@@ -69,7 +69,7 @@ public abstract class BaseLottery implements Lottery {
                 generatedNumbers.add(randomNum);
             }
         }
-
+        System.out.println("====================Series of numbers for "+lotteryCountNumbers+"aus"+maxLotteryNumber+" :");
         System.out.println(generatedNumbers.stream().sorted().collect(Collectors.toList()));
     }
 
